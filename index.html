@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Mobylogix &hearts; Open Source</title>
+    <link rel="stylesheet" type="text/css" href="assets/reset.css">
+    <link rel="stylesheet" type="text/css" href="assets/grid.css">
+    <link rel="stylesheet" type="text/css" href="assets/style.css">
+    <link href="assets/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link rel="mask-icon" sizes="any" href="assets/favicon.ico" color="#e1483f">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A listing of open source projects from Mobylogix.">
+
+    <meta name="twitter:url" content="https://mobylogix.github.io" />
+    <meta name="twitter:creator" content="@mobylogix" />
+    <meta name="twitter:site" content="@mobylogix" />
+    <meta name="twitter:title" content="Mobylogix <3 Open Source" />
+    <meta name="twitter:description" content="A listing of open source projects from Mobylogix." />
+    <meta name="twitter:card" content="summary" />
+  </head>
+  <body>
+    <div id="wrapper" class="grid clearfix">
+      <div id="main" class="grid-1">
+        <div id="logo"><h1>Mobylogix Open Source</h1></div>
+        <h1>Mobylogix is built on open source software.</h1>
+        <p>Want to help? <a href="https://mobylogix.com/contact-us/" target="_blank">Join the Flock</a></p>
+        <p>&nbsp;</p>
+      </div>
+
+      <div class="grid grid-3">
+        <div id="statistics" class="grid-1 alpha header">
+          <h1>Statistics</h1>
+          <p>
+            <a href="https://github.com/mobylogix/repositories"><span id="num-repos"><img src="assets/spinner.gif" /></span> public repos</a>
+            <br>
+            <a href="https://github.com/mobylogix?tab=members"><span id="num-members"><img src="assets/spinner.gif" /></span> members</a>
+          </p>
+          <p class="email"><a href="mailto:hello@mobylogix.com">hello@mobylogix.com</a></p>
+        </div>
+
+        <div id="recently-updated" class="grid-2 omega header">
+          <h1>Recently updated <a href="https://github.com/mobylogix/repositories">View All on GitHub</a></h1>
+          <ol id="recently-updated-repos"></ol>
+        </div>
+      </div>
+
+      <ol id="repos"></ol>
+    </div>
+      <!-- start Mixpanel -->
+    <script type="text/javascript">(function(e,a){if(!a.__SV){var b=window;try{var c,l,i,j=b.location,g=j.hash;c=function(a,b){return(l=a.match(RegExp(b+"=([^&]*)")))?l[1]:null};g&&c(g,"state")&&(i=JSON.parse(decodeURIComponent(c(g,"state"))),"mpeditor"===i.action&&(b.sessionStorage.setItem("_mpcehash",g),history.replaceState(i.desiredHash||"",e.title,j.pathname+j.search)))}catch(m){}var k,h;window.mixpanel=a;a._i=[];a.init=function(b,c,f){function e(b,a){var c=a.split(".");2==c.length&&(b=b[c[0]],a=c[1]);b[a]=function(){b.push([a].concat(Array.prototype.slice.call(arguments,
+        0)))}}var d=a;"undefined"!==typeof f?d=a[f]=[]:f="mixpanel";d.people=d.people||[];d.toString=function(b){var a="mixpanel";"mixpanel"!==f&&(a+="."+f);b||(a+=" (stub)");return a};d.people.toString=function(){return d.toString(1)+".people (stub)"};k="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config reset people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
+        for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElement("script");b.type="text/javascript";b.async=!0;b.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";c=e.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c)}})(document,window.mixpanel||[]);
+      mixpanel.init("0befcc7ef14d835c6391bbe5675f4a55");
+    </script>
+    <!-- end Mixpanel -->
+    <script type="text/javascript">
+      mixpanel.track("Opensource");
+    </script>
+    <script type="text/javascript" src="assets/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="assets/strftime.js"></script>
+    <script type="text/javascript">
+    (function ($, undefined) {
+
+      function repoUrl(repo) {
+        return repo.html_url;
+      }
+
+      // Put custom repo descriptions in this object, keyed by repo name.
+      var repoDescriptions = {
+        "naggati2": "A protocol builder for Netty using Scala 2.8"
+      };
+
+      function repoDescription(repo) {
+        return repoDescriptions[repo.name] || repo.description;
+      }
+
+      function addRecentlyUpdatedRepo(repo) {
+        var $item = $("<li>");
+
+        var $name = $("<a>").attr("href", repo.html_url).text(repo.name);
+        $item.append($("<span>").addClass("name").append($name));
+
+        var $time = $("<a>").attr("href", repo.html_url + "/commits").text(strftime("%h %e, %Y", repo.pushed_at));
+        $item.append($("<span>").addClass("time").append($time));
+
+        $item.append('<span class="bullet">&sdot;</span>');
+
+        var $watchers = $("<a>").attr("href", repo.html_url + "/stargazers").text(repo.stargazers_count + " stargazers");
+        $item.append($("<span>").addClass("watchers").append($watchers));
+
+        $item.append('<span class="bullet">&sdot;</span>');
+
+        var $forks = $("<a>").attr("href", repo.html_url + "/network").text(repo.forks_count + " forks");
+        $item.append($("<span>").addClass("forks").append($forks));
+
+        $item.appendTo("#recently-updated-repos");
+      }
+
+      function addRepo(repo) {
+        var $item = $("<li>").addClass("repo grid-1 " + (repo.language || '').toLowerCase());
+        var $link = $("<a>").attr("href", repoUrl(repo)).appendTo($item);
+        $link.append($("<h2>").text(repo.name));
+        $link.append($("<h3>").text(repo.language));
+        $link.append($("<p>").text(repoDescription(repo)));
+        $item.appendTo("#repos");
+      }
+
+      function addRepos(repos, page) {
+        repos = repos || [];
+        page = page || 1;
+
+        var uri = "https://api.github.com/orgs/mobylogix/repos?callback=?"
+                + "&per_page=100"
+                + "&page="+page;
+
+        $.getJSON(uri, function (result) {
+          if (result.data && result.data.length > 0) {
+            repos = repos.concat(result.data);
+            addRepos(repos, page + 1);
+          }
+          else {
+            $(function () {
+              $("#num-repos").text(repos.length);
+
+              // Convert pushed_at to Date.
+              $.each(repos, function (i, repo) {
+                repo.pushed_at = new Date(repo.pushed_at);
+
+                var weekHalfLife  = 1.146 * Math.pow(10, -9);
+
+                var pushDelta    = (new Date) - Date.parse(repo.pushed_at);
+                var createdDelta = (new Date) - Date.parse(repo.created_at);
+
+                var weightForPush = 1;
+                var weightForWatchers = 1.314 * Math.pow(10, 7);
+
+                repo.hotness = weightForPush * Math.pow(Math.E, -1 * weekHalfLife * pushDelta);
+                repo.hotness += weightForWatchers * repo.watchers / createdDelta;
+              });
+
+              // Sort by highest # of watchers.
+              repos.sort(function (a, b) {
+                if (a.hotness < b.hotness) return 1;
+                if (b.hotness < a.hotness) return -1;
+                return 0;
+              });
+
+              $.each(repos, function (i, repo) {
+                addRepo(repo);
+              });
+
+              // Sort by most-recently pushed to.
+              repos.sort(function (a, b) {
+                if (a.pushed_at < b.pushed_at) return 1;
+                if (b.pushed_at < a.pushed_at) return -1;
+                return 0;
+              });
+
+              $.each(repos.slice(0, 3), function (i, repo) {
+                addRecentlyUpdatedRepo(repo);
+              });
+            });
+          }
+        });
+      }
+      addRepos();
+
+      //get total number of Twitter members
+      function getNumMembers(page, numMembers) {
+        var page = page || 1;
+        var numMembers = numMembers || 0;
+        var membersUri = "https://api.github.com/orgs/mobylogix/members?callback=?"
+          + "&per_page=100"
+          + "&page="+page;
+
+        $.getJSON(membersUri, function (result) {
+          if (result.data && result.data.length > 0) {
+            numMembers += result.data.length;
+            getNumMembers(page+1, numMembers);
+          } else {
+            $(function () {
+              $("#num-members").text(numMembers);
+            });
+          }
+        });
+      }
+      getNumMembers();
+
+      function randomItem(array) {
+        return array[Math.floor(Math.random() * array.length)];
+      }
+
+      var $flyzone;
+
+      function flyzone() {
+        if (!$flyzone) {
+          $flyzone = $("<div>").attr("id", "flyzone").prependTo(document.body);
+        }
+
+        return $flyzone;
+      }
+
+      var sizes = ["smaller", "small", "medium", "large", "fat"];
+
+      var sizeDimensions = {
+        "smaller": 50,
+        "small": 80,
+        "medium": 130,
+        "large": 200,
+        "fat": 300
+      };
+
+      function randomOpacity(threshold) {
+        var opacity = Math.random();
+
+        while (opacity < threshold) {
+          opacity = Math.random();
+        }
+
+        return opacity;
+      }
+
+      function makeLarry(sizeName, speed) {
+        var size = sizeDimensions[sizeName];
+        var top = Math.floor((flyzone().height() - size) * Math.random());
+
+        var $img = $("<img>")
+          .addClass("larry size-" + sizeName)
+          .attr("src", "assets/ml.png")
+          .attr("width", size)
+          .attr("height", size)
+          .css({
+            position: "absolute",
+            opacity: randomOpacity(0.4),
+            top: top,
+            left: -size
+          });
+
+        $img.prependTo(flyzone());
+
+        var left = flyzone().width() + size;
+
+        $img.animate({left: left}, speed, function () {
+          $img.remove();
+          makeRandomLarry();
+        });
+
+        return $img;
+      }
+
+      function makeRandomLarry() {
+        var size = randomItem(sizes);
+        var speed = Math.floor(Math.random() * 20000) + 15000;
+        return makeLarry(size, speed);
+      }
+
+      $(function () {
+        $("#logo").click(function () {
+          makeRandomLarry();
+        });
+      });
+
+      var match = (/\blarry(=(\d+))?\b/i).exec(window.location.search);
+
+      if (match) {
+        var n = parseInt(match[2]) || 20;
+
+        $(function () {
+          for (var i = 0; i < n; ++i) {
+            setTimeout(makeRandomLarry, Math.random() * n * 500);
+          }
+        });
+      }
+    })(jQuery);
+    </script>
+  </body>
+</html>
