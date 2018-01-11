@@ -1,7 +1,7 @@
 Mobylogix Opensource
 ======
 
-The source code of https://mobylogix.github.io/
+The source code of http://opensource.mobylogix.com/
 
 LICENSE
 ------------
